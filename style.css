@@ -54,7 +54,8 @@ body {
 }
 
 .art-clip,
-.art-message {
+.art-message,
+.art-failed {
   display: none;
 }
 
@@ -138,6 +139,30 @@ body {
 
 .art[data-art="loading"] .art-message {
   display: block;
+}
+
+.art[data-art="failed"] .art-failed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin: 16px;
+  padding: 18px 20px;
+  text-align: center;
+  background: rgba(13, 11, 9, 0.88);
+  border: 1px solid var(--gold);
+}
+
+.art-failed p {
+  margin: 0;
+  font-style: italic;
+  color: var(--text);
+}
+
+.art-failed .btn {
+  flex: none;
+  min-width: 140px;
+  padding: 10px 20px;
 }
 
 .art[data-art="image"] {
