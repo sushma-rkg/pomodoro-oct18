@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup C - The Spotlight</title>
+<style>
+  :root { --bg:#0a0908; --gold:#c9a24b; --gold-light:#e8cf8a; --text:#efe6d2; --muted:#9a8f7a; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:Georgia,"Times New Roman",serif; }
+  .view { padding:24px 16px 56px; border-bottom:1px dashed #2e281f; background:radial-gradient(ellipse at 50% 18%, #2a241b 0%, #0a0908 65%); }
+  .view-label { margin:0 0 20px; text-align:center; font:600 .8rem/1 Arial,sans-serif; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
+  .screen { display:flex; flex-direction:column; align-items:center; max-width:640px; margin:0 auto; }
+  .art { width:100%; max-width:460px; aspect-ratio:4/5; background:linear-gradient(160deg,#2f4a63 0%,#6b7f5c 45%,#c98b4b 100%); box-shadow:0 0 70px 8px rgba(232,207,138,.28), 0 20px 50px rgba(0,0,0,.8); }
+  .art.blur-1 { filter:blur(14px); }
+  .art.blur-2 { filter:blur(5px); }
+  .art.loading { background:repeating-linear-gradient(45deg,#1d1914 0 14px,#25201a 14px 28px); display:flex; align-items:center; justify-content:center; font-style:italic; color:var(--muted); }
+  .art-wrap { width:100%; max-width:460px; overflow:visible; }
+  .timer-strip { width:calc(100% - 40px); max-width:420px; margin-top:-34px; padding:14px 10px; text-align:center; background:rgba(10,9,8,.92); border-top:1px solid var(--gold); border-bottom:1px solid var(--gold); position:relative; }
+  .timer { font-size:clamp(3.2rem,13vw,5rem); line-height:1; letter-spacing:.06em; color:var(--gold-light); font-variant-numeric:tabular-nums; text-shadow:0 0 24px rgba(201,162,75,.35); }
+  .buttons { display:flex; gap:14px; flex-wrap:wrap; justify-content:center; margin-top:26px; width:100%; }
+  .btn { flex:1 1 140px; max-width:190px; padding:14px 18px; text-align:center; font:600 1rem Georgia,serif; letter-spacing:.08em; border-radius:999px; cursor:default; }
+  .btn.primary { background:var(--gold); color:#1a1408; border:2px solid var(--gold); box-shadow:0 0 18px rgba(201,162,75,.35); }
+  .btn.secondary { background:transparent; color:var(--gold-light); border:2px solid var(--gold); }
+  .details { margin-top:30px; text-align:center; }
+  .details .title { margin:0 0 8px; font-size:1.6rem; font-style:italic; text-shadow:0 0 20px rgba(232,207,138,.25); }
+  .details .artist { margin:0; font-size:1.1rem; color:var(--gold-light); letter-spacing:.04em; }
+  .details .year { margin:4px 0 0; color:var(--muted); }
+  .hint { margin:26px 0 0; font-size:.9rem; font-style:italic; color:var(--muted); text-align:center; }
+  @media (min-width:900px) {
+    .view { padding:44px 32px 72px; }
+    .art, .art-wrap { max-width:520px; aspect-ratio:auto; }
+    .art { aspect-ratio:5/4; }
+    .timer-strip { max-width:380px; margin-top:-40px; }
+    .timer { font-size:5.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<section class="view">
+  <p class="view-label">C · The Spotlight — 1 · Before starting</p>
+  <div class="screen">
+    <div class="art-wrap"><div class="art blur-1"></div></div>
+    <div class="timer-strip"><div class="timer">25:00</div></div>
+    <div class="buttons"><div class="btn primary">Start</div><div class="btn secondary">Reset</div></div>
+  </div>
+</section>
+
+<section class="view">
+  <p class="view-label">C · The Spotlight — 2 · Timer running</p>
+  <div class="screen">
+    <div class="art-wrap"><div class="art blur-2"></div></div>
+    <div class="timer-strip"><div class="timer">14:32</div></div>
+    <div class="buttons"><div class="btn primary">Pause</div><div class="btn secondary">Reset</div></div>
+    <p class="hint">The painting's details appear when the timer ends.</p>
+  </div>
+</section>
+
+<section class="view">
+  <p class="view-label">C · The Spotlight — 3 · Timer finished</p>
+  <div class="screen">
+    <div class="art-wrap"><div class="art"></div></div>
+    <div class="timer-strip"><div class="timer">00:00</div></div>
+    <div class="details">
+      <p class="title">Evening by the Harbour</p>
+      <p class="artist">Marguerite Lenoir</p>
+      <p class="year">1887</p>
+    </div>
+    <div class="buttons"><div class="btn primary">Restart session</div></div>
+  </div>
+</section>
+
+<section class="view">
+  <p class="view-label">C · The Spotlight — Loading artwork</p>
+  <div class="screen">
+    <div class="art-wrap"><div class="art loading">Loading artwork...</div></div>
+    <div class="timer-strip"><div class="timer">25:00</div></div>
+    <div class="buttons"><div class="btn primary">Start</div><div class="btn secondary">Reset</div></div>
+  </div>
+</section>
+
+</body>
+</html>
