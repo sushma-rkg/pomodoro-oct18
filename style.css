@@ -167,7 +167,7 @@ body {
   outline-offset: 4px;
 }
 
-[data-state="finished"] .plaque {
+[data-state="finished"] .plaque:not([hidden]) {
   display: block;
 }
 
@@ -186,6 +186,23 @@ body {
 .plaque .year {
   margin: 4px 0 0;
   color: #9a8f7a;
+}
+
+.plaque-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.plaque-link:hover {
+  color: var(--gold-light);
+}
+
+.plaque-link[hidden] {
+  display: none;
 }
 
 @media (min-width: 900px) {

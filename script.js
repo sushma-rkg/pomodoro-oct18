@@ -6,6 +6,11 @@ const mainButton = document.getElementById("main-button");
 const resetButton = document.getElementById("reset-button");
 const artEl = document.getElementById("art");
 const artImage = document.getElementById("art-image");
+const plaqueEl = document.getElementById("plaque");
+const plaqueTitle = document.getElementById("plaque-title");
+const plaqueArtist = document.getElementById("plaque-artist");
+const plaqueYear = document.getElementById("plaque-year");
+const plaqueLink = document.getElementById("plaque-link");
 
 const SEARCH_URL =
   "https://collectionapi.metmuseum.org/public/collection/v1.1/search?departmentId=11&hasImages=true&limit=100";
@@ -17,6 +22,7 @@ let endTime = 0;
 let intervalId = null;
 let paintingIds = null;
 let currentPaintingId = null;
+let currentDetails = null;
 let paintingRequest = 0;
 
 function pickRandomIds(ids, count) {
@@ -38,7 +44,16 @@ async function findPaintingWithImage() {
     const objectResponse = await fetch(OBJECT_URL + id);
     const object = await objectResponse.json();
     if (object.primaryImageSmall) {
-      return { id: id, imageUrl: object.primaryImageSmall };
+      return {
+        id: id,
+        imageUrl: object.primaryImageSmall,
+        details: {
+          title: (object.title || "").trim() || "Untitled",
+          artist: (object.artistDisplayName || "").trim() || "Unknown artist",
+          year: (object.objectDate || "").trim(),
+          link: (object.objectURL || "").trim(),
+        },
+      };
     }
   }
   return null;
@@ -52,8 +67,35 @@ function loadImage(url) {
   });
 }
 
+// The details stay in memory and are only written onto the page at 00:00.
+function renderDetails() {
+  if (screen.dataset.state !== "finished" || !currentDetails) {
+    return;
+  }
+  plaqueTitle.textContent = currentDetails.title;
+  plaqueArtist.textContent = currentDetails.artist;
+  plaqueYear.textContent = currentDetails.year;
+  plaqueYear.hidden = currentDetails.year === "";
+  const hasLink = currentDetails.link.startsWith("https://");
+  plaqueLink.href = hasLink ? currentDetails.link : "";
+  plaqueLink.hidden = !hasLink;
+  plaqueEl.hidden = false;
+}
+
+function clearDetails() {
+  plaqueEl.hidden = true;
+  plaqueTitle.textContent = "";
+  plaqueArtist.textContent = "";
+  plaqueYear.textContent = "";
+  plaqueYear.hidden = true;
+  plaqueLink.removeAttribute("href");
+  plaqueLink.hidden = true;
+}
+
 async function showNewPainting() {
   const thisRequest = ++paintingRequest;
+  currentDetails = null;
+  clearDetails();
   artEl.dataset.art = "loading";
   try {
     const painting = await findPaintingWithImage();
@@ -69,7 +111,9 @@ async function showNewPainting() {
       return;
     }
     currentPaintingId = painting.id;
+    currentDetails = painting.details;
     artEl.dataset.art = "image";
+    renderDetails();
   } catch (error) {
     if (thisRequest === paintingRequest) {
       artEl.dataset.art = "placeholder";
@@ -94,6 +138,7 @@ function finish() {
   screen.dataset.state = "finished";
   mainButton.textContent = "Restart session";
   resetButton.hidden = true;
+  renderDetails();
 }
 
 function resetTimer() {
@@ -103,6 +148,7 @@ function resetTimer() {
   screen.dataset.state = "idle";
   mainButton.textContent = "Start";
   resetButton.hidden = false;
+  clearDetails();
 }
 
 // Works out the time left from the real clock, so it stays correct
