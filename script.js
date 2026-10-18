@@ -1,4 +1,4 @@
-const DURATION_MS = 25 * 60 * 1000;
+const DURATION_MS = 30 * 1000;
 
 const screen = document.getElementById("screen");
 const timerEl = document.getElementById("timer");
