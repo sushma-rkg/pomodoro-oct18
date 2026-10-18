@@ -45,9 +45,31 @@ body {
 }
 
 .art {
+  position: relative;
   aspect-ratio: 4 / 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(160deg, #2f4a63 0%, #6b7f5c 45%, #c98b4b 100%);
   filter: blur(14px);
+}
+
+.art-image,
+.art-message {
+  display: none;
+}
+
+.art-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.art-message {
+  font-style: italic;
+  color: #9a8f7a;
 }
 
 [data-state="running"] .art,
@@ -109,6 +131,24 @@ body {
 
 [data-state="finished"] .art {
   filter: none;
+}
+
+.art[data-art="loading"] {
+  background: repeating-linear-gradient(45deg, #2a251e 0 14px, #322c23 14px 28px);
+  filter: none;
+}
+
+.art[data-art="loading"] .art-message {
+  display: block;
+}
+
+.art[data-art="image"] {
+  background: transparent;
+  filter: none;
+}
+
+.art[data-art="image"] .art-image {
+  display: block;
 }
 
 [data-state="finished"] .hint {
