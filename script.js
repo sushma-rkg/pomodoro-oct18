@@ -16,6 +16,8 @@ const SEARCH_URL =
   "https://collectionapi.metmuseum.org/public/collection/v1.1/search?departmentId=11&hasImages=true&limit=100";
 const OBJECT_URL = "https://collectionapi.metmuseum.org/public/collection/v1/objects/";
 const MAX_TRIES = 5;
+const MAX_BLUR_PX = 30;
+const ZOOM_PER_BLUR_PX = 0.013;
 
 let remainingMs = DURATION_MS;
 let endTime = 0;
@@ -61,7 +63,10 @@ async function findPaintingWithImage() {
 
 function loadImage(url) {
   return new Promise((resolve, reject) => {
-    artImage.onload = resolve;
+    artImage.onload = () => {
+      artEl.style.setProperty("--ratio", artImage.naturalWidth / artImage.naturalHeight);
+      resolve();
+    };
     artImage.onerror = reject;
     artImage.src = url;
   });
@@ -121,7 +126,16 @@ async function showNewPainting() {
   }
 }
 
+// The blur depends only on the share of time left, so it works for any
+// timer length and follows the real clock like the numbers do.
+function updateBlur() {
+  const blur = MAX_BLUR_PX * (remainingMs / DURATION_MS);
+  artEl.style.setProperty("--blur", blur.toFixed(2) + "px");
+  artEl.style.setProperty("--zoom", (1 + blur * ZOOM_PER_BLUR_PX).toFixed(4));
+}
+
 function showTime() {
+  updateBlur();
   const totalSeconds = Math.ceil(remainingMs / 1000);
   const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
   const seconds = String(totalSeconds % 60).padStart(2, "0");
@@ -194,4 +208,5 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
+updateBlur();
 showNewPainting();

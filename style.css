@@ -45,36 +45,39 @@ body {
 }
 
 .art {
-  position: relative;
+  container-type: size;
   aspect-ratio: 4 / 5;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(160deg, #2f4a63 0%, #6b7f5c 45%, #c98b4b 100%);
-  filter: blur(14px);
 }
 
-.art-image,
+.art-clip,
 .art-message {
   display: none;
 }
 
+/* A box cut to the exact shape of the painting, so the blur never spills out. */
+.art-clip {
+  width: min(100cqw, calc(100cqh * var(--ratio, 1)));
+  aspect-ratio: var(--ratio, 1);
+  overflow: hidden;
+}
+
+/* --blur and --zoom are set by script.js from the time left. The zoom pushes
+   the soft blurred edge outside the box and shrinks to 1 as the blur reaches 0. */
 .art-image {
-  position: absolute;
-  inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  transform: scale(var(--zoom, 1));
+  filter: blur(var(--blur, 0px));
 }
 
 .art-message {
   font-style: italic;
   color: #9a8f7a;
-}
-
-[data-state="running"] .art,
-[data-state="paused"] .art {
-  filter: blur(5px);
 }
 
 .timer {
@@ -129,13 +132,8 @@ body {
   visibility: visible;
 }
 
-[data-state="finished"] .art {
-  filter: none;
-}
-
 .art[data-art="loading"] {
   background: repeating-linear-gradient(45deg, #2a251e 0 14px, #322c23 14px 28px);
-  filter: none;
 }
 
 .art[data-art="loading"] .art-message {
@@ -144,10 +142,9 @@ body {
 
 .art[data-art="image"] {
   background: transparent;
-  filter: none;
 }
 
-.art[data-art="image"] .art-image {
+.art[data-art="image"] .art-clip {
   display: block;
 }
 
