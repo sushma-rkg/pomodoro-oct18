@@ -107,6 +107,47 @@ body {
   visibility: visible;
 }
 
+[data-state="finished"] .art {
+  filter: none;
+}
+
+[data-state="finished"] .hint {
+  display: none;
+}
+
+.plaque {
+  display: none;
+  width: 100%;
+  max-width: 440px;
+  padding: 18px 22px;
+  text-align: center;
+  background: #1b1814;
+  border: 1px solid var(--gold);
+  outline: 1px solid #5a4820;
+  outline-offset: 4px;
+}
+
+[data-state="finished"] .plaque {
+  display: block;
+}
+
+.plaque .title {
+  margin: 0 0 6px;
+  font-size: 1.35rem;
+  font-style: italic;
+}
+
+.plaque .artist {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--gold-light);
+}
+
+.plaque .year {
+  margin: 4px 0 0;
+  color: #9a8f7a;
+}
+
 @media (min-width: 900px) {
   body {
     padding: 40px 32px;
@@ -123,5 +164,9 @@ body {
 
   .art {
     aspect-ratio: 5 / 4;
+  }
+
+  .plaque {
+    max-width: 480px;
   }
 }
