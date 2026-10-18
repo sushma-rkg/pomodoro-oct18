@@ -50,6 +50,11 @@ body {
   filter: blur(14px);
 }
 
+[data-state="running"] .art,
+[data-state="paused"] .art {
+  filter: blur(5px);
+}
+
 .timer {
   font-size: clamp(3.4rem, 13vw, 5.5rem);
   line-height: 1;
@@ -86,6 +91,20 @@ body {
   background: transparent;
   color: var(--gold-light);
   border: 2px solid var(--gold);
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.9rem;
+  font-style: italic;
+  text-align: center;
+  color: #9a8f7a;
+  visibility: hidden;
+}
+
+[data-state="running"] .hint,
+[data-state="paused"] .hint {
+  visibility: visible;
 }
 
 @media (min-width: 900px) {

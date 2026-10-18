@@ -7,17 +7,18 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="screen">
+  <main class="screen" id="screen" data-state="idle">
     <div class="frame">
       <div class="frame-inner">
         <div class="art"></div>
       </div>
     </div>
-    <div class="timer">25:00</div>
+    <div class="timer" id="timer">25:00</div>
     <div class="buttons">
-      <button type="button" class="btn primary">Start</button>
-      <button type="button" class="btn secondary">Reset</button>
+      <button type="button" class="btn primary" id="main-button">Start</button>
+      <button type="button" class="btn secondary" id="reset-button">Reset</button>
     </div>
+    <p class="hint" id="hint">The painting's details appear when the timer ends.</p>
   </main>
   <script src="script.js"></script>
 </body>
