@@ -1,0 +1,251 @@
+:root {
+  --bg: #12100e;
+  --gold: #c9a24b;
+  --gold-light: #e8cf8a;
+  --text: #efe6d2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.screen {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.frame {
+  width: 100%;
+  max-width: 440px;
+  padding: 14px;
+  background: linear-gradient(135deg, #f0d98f, #b8892f 45%, #e8cf8a 70%, #9c7424);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+}
+
+.frame-inner {
+  padding: 10px;
+  background: #0d0b09;
+  overflow: hidden;
+}
+
+.art {
+  container-type: size;
+  aspect-ratio: 4 / 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #2f4a63 0%, #6b7f5c 45%, #c98b4b 100%);
+}
+
+.art-clip,
+.art-message,
+.art-failed {
+  display: none;
+}
+
+/* A box cut to the exact shape of the painting, so the blur never spills out. */
+.art-clip {
+  width: min(100cqw, calc(100cqh * var(--ratio, 1)));
+  aspect-ratio: var(--ratio, 1);
+  overflow: hidden;
+}
+
+/* --blur and --zoom are set by script.js from the time left. The zoom pushes
+   the soft blurred edge outside the box and shrinks to 1 as the blur reaches 0. */
+.art-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scale(var(--zoom, 1));
+  filter: blur(var(--blur, 0px));
+}
+
+.art-message {
+  font-style: italic;
+  color: #9a8f7a;
+}
+
+.timer {
+  font-size: clamp(3.4rem, 13vw, 5.5rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--gold-light);
+  font-variant-numeric: tabular-nums;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.btn {
+  flex: 1 1 140px;
+  max-width: 200px;
+  padding: 14px 20px;
+  font: 600 1rem Georgia, serif;
+  letter-spacing: 0.06em;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: var(--gold);
+  color: #1a1408;
+  border: 2px solid var(--gold);
+}
+
+.btn.secondary {
+  background: transparent;
+  color: var(--gold-light);
+  border: 2px solid var(--gold);
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.9rem;
+  font-style: italic;
+  text-align: center;
+  color: #9a8f7a;
+  visibility: hidden;
+}
+
+[data-state="running"] .hint,
+[data-state="paused"] .hint {
+  visibility: visible;
+}
+
+.art[data-art="loading"] {
+  background: repeating-linear-gradient(45deg, #2a251e 0 14px, #322c23 14px 28px);
+}
+
+.art[data-art="loading"] .art-message {
+  display: block;
+}
+
+.art[data-art="failed"] .art-failed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin: 16px;
+  padding: 18px 20px;
+  text-align: center;
+  background: rgba(13, 11, 9, 0.88);
+  border: 1px solid var(--gold);
+}
+
+.art-failed p {
+  margin: 0;
+  font-style: italic;
+  color: var(--text);
+}
+
+.art-failed .btn {
+  flex: none;
+  min-width: 140px;
+  padding: 10px 20px;
+}
+
+.art[data-art="image"] {
+  background: transparent;
+}
+
+.art[data-art="image"] .art-clip {
+  display: block;
+}
+
+[data-state="finished"] .hint {
+  display: none;
+}
+
+.plaque {
+  display: none;
+  width: 100%;
+  max-width: 440px;
+  padding: 18px 22px;
+  text-align: center;
+  background: #1b1814;
+  border: 1px solid var(--gold);
+  outline: 1px solid #5a4820;
+  outline-offset: 4px;
+}
+
+[data-state="finished"] .plaque:not([hidden]) {
+  display: block;
+}
+
+.plaque .title {
+  margin: 0 0 6px;
+  font-size: 1.35rem;
+  font-style: italic;
+}
+
+.plaque .artist {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--gold-light);
+}
+
+.plaque .year {
+  margin: 4px 0 0;
+  color: #9a8f7a;
+}
+
+.plaque-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.plaque-link:hover {
+  color: var(--gold-light);
+}
+
+.plaque-link[hidden] {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  body {
+    padding: 40px 32px;
+  }
+
+  .screen {
+    max-width: 760px;
+    gap: 30px;
+  }
+
+  .frame {
+    max-width: 480px;
+  }
+
+  .art {
+    aspect-ratio: 5 / 4;
+  }
+
+  .plaque {
+    max-width: 480px;
+  }
+}
